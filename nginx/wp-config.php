@@ -18,18 +18,24 @@
  * @package WordPress
  */
 
+$local_db = getenv('DB_DATABASE');
+$local_user = getenv('DB_USER');
+$local_pass = getenv('DB_PASS');
+$local_host = getenv('DB_HOST');
+
+
 // ** MySQL settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
-define('DB_NAME', '$DB_DATABASE');
+define('DB_NAME', $local_db);
 
 /** MySQL database username */
-define('DB_USER', '$DB_USER');
+define('DB_USER', $local_user);
 
 /** MySQL database password */
-define('DB_PASSWORD', '$DB_PASS');
+define('DB_PASSWORD', $local_pass);
 
 /** MySQL hostname */
-define('DB_HOST', '$DB_HOST');
+define('DB_HOST', $local_host);
 
 /** Database Charset to use in creating database tables. */
 define('DB_CHARSET', 'utf8');

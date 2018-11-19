@@ -1,0 +1,30 @@
+version: '3'
+service:
+
+  redis:
+  
+
+
+
+
+
+
+
+
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=12345678
+    networks: 
+      - sentry
+    volumes:
+      - database:/var/lib/postgresql/data
+    hostname: pgsql
+    container_name: sentry_postgres
+
+volumes:
+  database:
+
+networks:
+  sentry:

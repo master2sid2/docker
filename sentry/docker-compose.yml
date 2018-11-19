@@ -1,5 +1,5 @@
 version: '3'
-service:
+services:
 
   nginx:
     build:
@@ -9,22 +9,22 @@ service:
       - sentry
     ports:
       - "8080:80"
-    depends_on: 
-      - sentry
+#    depends_on: 
+#      - sentry
     hostname: nginx
     container_name: sentry_nginx
 
-  sentry:
-    build:
-      dockerfile: Dockerfile
-      context: ./sentry
-    networks:
-      - sentry
-    depens_on:
-      - postgres
-      - redis
-    hostname: sentry
-    container_name: sentry_sentry
+#  sentry:
+#    build:
+#      dockerfile: Dockerfile
+#      context: ./sentry
+#    networks:
+#      - sentry
+#    depends_on:
+#      - postgres
+#      - redis
+#    hostname: sentry
+#    container_name: sentry_sentry
 
   redis:
     image: redis
@@ -38,7 +38,9 @@ service:
     image: postgres
     restart: always
     environment:
+      - POSTGRES_USER=sentry
       - POSTGRES_PASSWORD=12345678
+      - POSTGRES_DB=sentry
     networks: 
       - sentry
     volumes:

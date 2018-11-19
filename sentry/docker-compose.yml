@@ -1,14 +1,29 @@
 version: '3'
 service:
-
+  nginx:
+    build:
+      dockerfile: Dockerfile
+      context: ./nginx
+    networks: 
+      - sentry
+    ports:
+      - "8080:80"
+    depends_on: 
+      - sentry
+    hostname: nginx
+    container_name: sentry_nginx
+  sentry:
+    build:
+      dockerfile: Dockerfile
+      context: ./sentry
+    networks:
+      - sentry
+    depens_on:
+      - postgres
+      - redis
+    hostname: sentry
+    container_name: sentry_sentry
   redis:
-  
-
-
-
-
-
-
 
 
   postgres:

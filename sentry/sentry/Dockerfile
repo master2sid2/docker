@@ -1,4 +1,4 @@
-FROM	debian:latest AS build
+FROM	debian:latest
 RUN	apt-get update && \
 	apt install -y --no-install-recommends python-setuptools \
 	python-dev \
@@ -13,13 +13,14 @@ RUN	apt-get update && \
 	python \
 	python-pip \
 	build-essential && \
-	pip install wheel \
-	virtualenv && \
-	virtualenv /www/sentry/ && \
+	pip install wheel && \
 	pip install -U sentry
-
-FROM	debian:latest
-COPY	--from=build /www/sentry /
-COPY	--from=build /bin/sh /bin/
-#RUN	""
-CMD	["sentry"]
+RUN	sentry init /root/.sentry/ && \
+        sed -i "s/'USER\': \'\'/\'USER\': \'sentry\'/g" /root/.sentry/sentry.conf.py && \
+        sed -i "s/\'PASSWORD\': \'\'/\'PASSWORD\': \'12345678\'/g" /root/.sentry/sentry.conf.py && \
+        sed -i "s/\'HOST\': \'\'/\'HOST\': \'postgres\'/g" /root/.sentry/sentry.conf.py && \
+        sed -i "s/\'PORT\': \'\'/\'PORT\': \'5432\'/g" /root/.sentry/sentry.conf.py && \
+        sed -i "s/host: 127.0.0.1/host: redis/g" /root/.sentry/config.yml && \
+#	sentry upgrade
+EXPOSE	9000
+CMD	["sentry", "run", "web"]

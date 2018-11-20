@@ -17,7 +17,7 @@ RUN	apt-get update && \
 	pip install -U sentry && \
 	sentry init /root/.sentry/
 COPY	./sentry /root/.sentry/
-RUN	sentry upgrade --no-input && \
+RUN	sentry upgrade --noinput && \
 	sentry createuser --no-input --email test@test.com --superuser --no-password
 EXPOSE	9000
 CMD	["sentry", "run", "web"]

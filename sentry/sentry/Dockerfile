@@ -20,4 +20,4 @@ COPY	./sentry /root/.sentry/
 RUN	sentry upgrade --noinput && \
 	sentry createuser --no-input --email test@test.com --superuser --no-password
 EXPOSE	9000
-CMD	["sentry", "run", "web"]
+CMD	["/root/.sentry/setup.sh]

@@ -14,13 +14,10 @@ RUN	apt-get update && \
 	python-pip \
 	build-essential && \
 	pip install wheel && \
-	pip install -U sentry
-RUN	sentry init /root/.sentry/ && \
-        sed -i "s/'USER\': \'\'/\'USER\': \'sentry\'/g" /root/.sentry/sentry.conf.py && \
-        sed -i "s/\'PASSWORD\': \'\'/\'PASSWORD\': \'12345678\'/g" /root/.sentry/sentry.conf.py && \
-        sed -i "s/\'HOST\': \'\'/\'HOST\': \'postgres\'/g" /root/.sentry/sentry.conf.py && \
-        sed -i "s/\'PORT\': \'\'/\'PORT\': \'5432\'/g" /root/.sentry/sentry.conf.py && \
-        sed -i "s/host: 127.0.0.1/host: redis/g" /root/.sentry/config.yml && \
-#	sentry upgrade
+	pip install -U sentry && \
+	sentry init /root/.sentry/
+COPY	./sentry /root/.sentry/
+RUN	sentry upgrade --no-input && \
+	sentry createuser --no-input --email test@test.com --superuser --no-password
 EXPOSE	9000
 CMD	["sentry", "run", "web"]

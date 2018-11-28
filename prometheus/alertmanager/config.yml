@@ -1,0 +1,26 @@
+global:
+  resolve_timeout: 2m
+route:
+  receiver: 'email'
+  group_wait: 30s
+  group_interval: 5m
+  repeat_interval: 1h
+  group_by: [alertname, instance, severity]
+
+receivers:
+- name: 'email'
+  email_configs:
+  - send_resolved: true
+    to: 'master2sid2@gmail.com'
+    from: 'master2sid2@gmail.com'
+    smarthost: 'smtp.gmail.com:587'
+    auth_username: "master2sid2@gmail.com"
+    auth_identity: "master2sid2@gmail.com"
+    auth_password: "samsung3469"
+
+inhibit_rules:
+- source_match:
+    alertname: 'site_is_down'
+  target_match:
+    alertname: 'http_status_code != 200 and != 301'
+
